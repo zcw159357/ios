@@ -6,6 +6,7 @@
 //  Copyright © 2021 Marino Faggiana. All rights reserved.
 //
 //  Author Marino Faggiana <marino.faggiana@nextcloud.com>
+//  Author Henrik Storch <henrik.storch@nextcloud.com>
 //
 //  This program is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -92,6 +93,13 @@ class NCGlobal: NSObject {
     @objc let appScan                               = "Library/Application Support/Scan"
     @objc let appBackground                         = "Library/Application Support/Background"
     @objc let directoryProviderStorage              = "File Provider Storage"
+
+    // Quick Action Identifiers
+    enum QuickAction: String {
+        case favorites                              = "FavoritesQuickAction"
+        case scan                                   = "ScanQuickAction"
+        case uploadFile                             = "UploadFileQuickAction"
+    }
 
     // Service
     //
@@ -360,30 +368,3 @@ class NCGlobal: NSObject {
     let notificationCenterOpenMediaDetail                       = "openMediaDetail"                 // userInfo: ocId
 
 }
-
-//let rootView = UIApplication.shared.keyWindow?.rootViewController?.view
-
-/*
-DispatchQueue.main.async {
-DispatchQueue.main.asyncAfter(deadline: .now() + 0.1)
-DispatchQueue.global().async
-DispatchQueue.global(qos: .background).async
-
-#if targetEnvironment(simulator)
-#endif
-
-dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-dispatch_async(dispatch_get_main_queue(), ^{
-dispatch_after(dispatch_time(DISPATCH_TIME_NOW, 0.3 * NSEC_PER_SEC), dispatch_get_main_queue(), ^(void) {
-
-#if TARGET_OS_SIMULATOR
-#endif
-
-if let popoverController = alertController.popoverPresentationController {
-    popoverController.sourceView = self.view
-    popoverController.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
-    popoverController.permittedArrowDirections = []
-}
-
-@discardableResult
-*/
