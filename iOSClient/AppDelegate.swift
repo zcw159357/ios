@@ -333,11 +333,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                 localizedSubtitle: nil,
                 icon: UIApplicationShortcutIcon(templateImageName: "file"))
             let favoritesItem = UIApplicationShortcutItem(
-                type: NCGlobal.QuickAction.uploadFile.rawValue,
+                type: NCGlobal.QuickAction.favorites.rawValue,
                 localizedTitle: NSLocalizedString("_favorites_", comment: ""),
                 localizedSubtitle: nil,
                 icon: UIApplicationShortcutIcon(type: .favorite))
-            UIApplication.shared.shortcutItems = [uploadFileItem, favoritesItem]
+            let activitiesItem = UIApplicationShortcutItem(
+                type: NCGlobal.QuickAction.activities.rawValue,
+                localizedTitle: NSLocalizedString("_activity_", comment: ""),
+                localizedSubtitle: nil,
+                icon: UIApplicationShortcutIcon(templateImageName: "bolt"))
+            UIApplication.shared.shortcutItems = [uploadFileItem, favoritesItem, activitiesItem]
         }
 
         if
@@ -458,6 +463,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
             }
         case .uploadFile:
             NCDocumentPickerViewController(tabBarController: tabBarCtrl)
+        case .activities:
+            tabBarCtrl.selectedIndex = 4
+            guard let ncNav = tabBarCtrl.viewControllers?.last as? NCMainNavigationController,
+                  let ncMore = ncNav.topViewController as? NCMore else { return }
+            let indexPath = IndexPath(row: 3, section: 1)
+            DispatchQueue.main.async {
+                //delay needed else `tableView` is nil
+                ncMore.tableView.delegate?.tableView?(ncMore.tableView, didSelectRowAt: indexPath)
+            }
         default:
             NCCommunicationCommon.shared.writeLog("Unknown shortcut item action: \(shortcutItem.type)")
         }
